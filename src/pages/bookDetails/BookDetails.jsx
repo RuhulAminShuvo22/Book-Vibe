@@ -1,21 +1,21 @@
-import React, { use } from 'react';
-import { useLoaderData, useParams } from 'react-router';
+import React, { use, useContext, useState } from "react";
+import { useLoaderData, useParams } from "react-router";
+import { BookContext } from "../../context/BookContext";
 
-//const booksPromise = fetch("/public/booksData.json").then((res) => res.json());
+// const booksPromise = fetch("/booksData.json").then((res) => res.json());
 
 const BookDetails = () => {
+  const { bookId: bookParamsId } = useParams();
 
-    const {bookId:bookParamsId} = useParams()
-    console.log(typeof bookParamsId, "bookId")
+  //   const books = use(booksPromise);
 
-    // const books = use(booksPromise);
-    const books = useLoaderData()
-    console.log(books, "books ");
-
-    const expectedBook = books.find(book => book.bookId === Number(bookParamsId))
-    console.log(expectedBook, "expextedBook")
-
-     const {
+  const books = useLoaderData();
+  // console.log(books, "books ");
+  const expectedBook = books.find(
+    (book) => book.bookId === Number(bookParamsId),
+  );
+  // console.log(expectedBook, "expectedBook");
+  const {
     bookId,
     bookName,
     author,
@@ -29,11 +29,10 @@ const BookDetails = () => {
     yearOfPublishing,
   } = expectedBook;
 
+  const { handleMarkAsRead, handleWishList } = useContext(BookContext);
 
-
-
-    return (
-        <div className="grid grid-cols-2 bg-base-100 shadow-sm container mx-auto my-8">
+  return (
+    <div className="grid grid-cols-2 bg-base-100 shadow-sm container mx-auto my-8">
       <figure className="w-full flex items-center justify-center bg-gray-100 rounded-xl">
         <img src={image} alt="Album" className="h-[400px]" />
       </figure>
